@@ -1,226 +1,879 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Flamenco — Cultura Espanhola</title>
-  <meta name="description" content="Site informativo sobre o Flamenco: história, música, dança, trajes e instrumentos.">
-  <style>
-    :root{
-      --vermelho:#b71c1c; /* deep red */
-      --amarelo:#ffca28; /* warm yellow */
-      --bg:#fff7eb;
-      --texto:#2b2b2b;
-      --card-bg: rgba(255,255,255,0.85);
-      --max-width:1100px;
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg),#fff);color:var(--texto);scroll-behavior:smooth}
-    header{background:linear-gradient(90deg,var(--vermelho),#8b0000);color:var(--amarelo);padding:28px 16px 36px;position:sticky;top:0;z-index:40;box-shadow:0 6px 18px rgba(0,0,0,0.12)}
-    .container{max-width:var(--max-width);margin:0 auto}
-    .nav{display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .brand{display:flex;align-items:center;gap:14px}
-    .brand .logo{width:56px;height:56px;border-radius:8px;background:linear-gradient(135deg,var(--amarelo),#ffd54f);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--vermelho);box-shadow:0 4px 12px rgba(0,0,0,0.12)}
-    nav a{color:rgba(255,255,255,0.95);text-decoration:none;font-weight:600;padding:8px 12px;border-radius:8px}
-    nav a:hover{background:rgba(255,255,255,0.08)}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Controle de Boletos</title>
+<style>
+  :root{
+    --bg:#f2f5fa;
+    --ink:#0e1b30;
+    --ink-2:#34445c;
+    --muted:#6b7a90;
+    --line:#e3e8f0;
+    --line-2:#d3dbe7;
+    --surface:#ffffff;
+    --primary:#2447d6;
+    --primary-2:#3d6df2;
+    --primary-soft:#eaf0ff;
+    --navy:#0a1730;
+    --navy-2:#13294d;
+    --warn:#b45309;
+    --warn-bg:#fff6e5;
+    --warn-line:#f6d9a0;
+    --ok:#0f7a55;
+    --ok-bg:#e7f8f0;
+    --ok-line:#a8e6cb;
+    --danger:#c0352b;
+    --danger-bg:#fdeceb;
+    --radius:18px;
+    --shadow-sm:0 1px 2px rgba(14,27,48,.06),0 1px 1px rgba(14,27,48,.04);
+    --shadow-md:0 10px 30px -12px rgba(14,27,48,.18),0 2px 6px rgba(14,27,48,.05);
+    --shadow-lg:0 30px 60px -25px rgba(14,27,48,.35);
+    --ui:"Segoe UI Variable Text","Segoe UI",Inter,system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;
+    --doc:Calibri,Carlito,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);font-family:var(--ui);
+    font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;
+  }
+  button,input,select{font:inherit;color:inherit}
+  svg{display:block;flex:none}
+  .ic{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-    /* Hero */
-    .hero{padding:48px 16px 64px;display:grid;grid-template-columns:1fr;gap:20px;align-items:center}
-    .hero-inner{display:flex;flex-direction:column;gap:12px}
-    h1{font-size:clamp(26px,4vw,44px);margin:0;color:var(--amarelo);text-shadow:0 3px 0 rgba(0,0,0,0.08)}
-    p.lead{margin:0;font-size:1.05rem;color:#fff8e1;max-width:760px}
-    .cta{margin-top:8px}
-    .btn{display:inline-block;background:var(--amarelo);color:var(--vermelho);padding:10px 16px;border-radius:999px;font-weight:700;text-decoration:none}
+  /* ============ HERO ============ */
+  .hero{
+    position:relative;overflow:hidden;color:#fff;
+    background:
+      radial-gradient(900px 380px at 85% -10%,rgba(93,132,255,.45),transparent 60%),
+      radial-gradient(600px 300px at 0% 110%,rgba(45,212,191,.18),transparent 60%),
+      linear-gradient(135deg,var(--navy),var(--navy-2));
+    padding:34px 24px 118px;
+  }
+  .hero::after{
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
+    background-size:44px 44px;
+    -webkit-mask-image:linear-gradient(to bottom,#000,transparent 90%);mask-image:linear-gradient(to bottom,#000,transparent 90%);
+  }
+  .hero-in{position:relative;z-index:1;max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:28px;align-items:flex-end;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+  .logo{
+    width:44px;height:44px;border-radius:13px;display:grid;place-items:center;
+    background:linear-gradient(145deg,#5b86ff,#2447d6);box-shadow:0 8px 20px -6px rgba(61,109,242,.7),inset 0 1px 0 rgba(255,255,255,.35);
+  }
+  .logo .ic{width:22px;height:22px;stroke:#fff}
+  .brand b{display:block;font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:#c9d6f5}
+  .brand span{font-size:12.5px;color:#8fa4cf}
+  .hero h1{margin:0;font-size:clamp(26px,4.2vw,38px);line-height:1.12;letter-spacing:-.02em;font-weight:650}
+  .hero p.lead{margin:10px 0 0;max-width:520px;color:#aebcdc;font-size:15px}
+  .stats{display:flex;gap:12px;flex-wrap:wrap}
+  .stat{
+    min-width:150px;padding:14px 18px;border-radius:16px;
+    background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  }
+  .stat small{display:block;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:#a9b9dd}
+  .stat strong{display:block;font-size:30px;line-height:1.1;font-weight:650;margin-top:2px;font-variant-numeric:tabular-nums}
 
-    /* Sections */
-    section{padding:56px 16px}
-    .card{background:var(--card-bg);backdrop-filter:blur(6px);padding:22px;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,0.06)}
-    .grid{display:grid;gap:20px}
-    .grid.cols-2{grid-template-columns:repeat(2,1fr)}
+  /* ============ LAYOUT ============ */
+  main{
+    position:relative;z-index:2;max-width:1180px;margin:-76px auto 56px;padding:0 24px;
+    display:grid;grid-template-columns:380px minmax(0,1fr);gap:26px;align-items:start;
+  }
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-md)}
+  .form-col{position:sticky;top:20px}
+  .form-card{padding:26px}
+  .card-head{display:flex;gap:12px;align-items:center;margin-bottom:22px}
+  .chip-ic{width:40px;height:40px;border-radius:12px;background:var(--primary-soft);color:var(--primary);display:grid;place-items:center}
+  .card-head h2{margin:0;font-size:18px;letter-spacing:-.01em;font-weight:650}
+  .card-head p{margin:0;font-size:13px;color:var(--muted)}
 
-    h2{margin-top:0;color:var(--vermelho)}
-    .muted{color:#563d2b}
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:12.5px;font-weight:600;color:var(--ink-2);margin-bottom:7px;letter-spacing:.01em}
+  .control{position:relative}
+  .control > .ic{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;width:17px;height:17px;transition:color .2s}
+  .select{
+    width:100%;height:50px;padding:0 40px 0 42px;border-radius:13px;border:1.5px solid var(--line-2);
+    background:#fbfcfe url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7a90' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center/16px;
+    -webkit-appearance:none;appearance:none;cursor:pointer;font-size:14.5px;font-weight:500;text-overflow:ellipsis;
+    transition:border-color .2s,box-shadow .2s,background-color .2s;
+  }
+  .select:hover{border-color:#b6c3d8;background-color:#fff}
+  .select:focus{outline:none;border-color:var(--primary-2);box-shadow:0 0 0 4px rgba(61,109,242,.16);background-color:#fff}
+  .control:focus-within > .ic{color:var(--primary)}
+  .select.invalid{border-color:#e08a82;box-shadow:0 0 0 4px rgba(192,53,43,.1)}
+  .row2{display:grid;grid-template-columns:1.35fr 1fr;gap:12px}
+  .hint{margin-top:8px;font-size:12.5px;color:var(--muted);min-height:18px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+  .hint .tag{display:inline-block;padding:1px 9px;border-radius:99px;background:var(--primary-soft);color:var(--primary);font-weight:700;font-size:11.5px;letter-spacing:.04em}
+  .hint.warn{color:var(--warn)}
+  .linkbtn{background:none;border:0;padding:0;color:var(--primary);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
 
-    /* visual elements */
-    .figure{height:220px;border-radius:12px;overflow:hidden;background-image:linear-gradient(135deg,rgba(0,0,0,0.05),rgba(0,0,0,0.02));display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;
+    border-radius:13px;border:1.5px solid var(--line-2);background:#fff;color:var(--ink-2);
+    height:42px;padding:0 16px;font-size:13.5px;font-weight:600;white-space:nowrap;
+    transition:transform .18s,box-shadow .2s,background .2s,border-color .2s,color .2s;
+  }
+  .btn:hover{border-color:#aebbd0;background:#f7f9fd;box-shadow:var(--shadow-sm);transform:translateY(-1px)}
+  .btn:active{transform:translateY(0)}
+  .btn:focus-visible,.icon-btn:focus-visible,.chip:focus-visible,.linkbtn:focus-visible{outline:3px solid rgba(61,109,242,.4);outline-offset:2px}
+  .btn-primary{
+    width:100%;height:54px;font-size:15.5px;border:0;color:#fff;border-radius:15px;letter-spacing:.01em;
+    background:linear-gradient(135deg,#2447d6,#3d6df2 60%,#4f80ff);
+    box-shadow:0 14px 26px -12px rgba(36,71,214,.75),inset 0 1px 0 rgba(255,255,255,.25);
+    margin-top:6px;position:relative;overflow:hidden;
+  }
+  .btn-primary:hover{background:linear-gradient(135deg,#1f3fc4,#3563e8 60%,#4a7bfb);color:#fff;box-shadow:0 18px 30px -12px rgba(36,71,214,.85),inset 0 1px 0 rgba(255,255,255,.3);transform:translateY(-2px)}
+  .btn-primary .ic{width:20px;height:20px;stroke-width:2.2}
+  .btn-danger{color:var(--danger);border-color:#f0c7c3;background:#fff}
+  .btn-danger:hover{background:var(--danger-bg);border-color:#e6a8a2}
+  .btn-solid-danger{background:var(--danger);border-color:var(--danger);color:#fff}
+  .btn-solid-danger:hover{background:#a82b22;border-color:#a82b22}
+  .btn-ghost{width:100%;border-style:dashed;background:transparent}
 
-    /* Footer */
-    footer{padding:28px 16px;background:linear-gradient(90deg,#fff8e1,#fff);border-top:4px solid var(--amarelo)}
+  .alert{
+    margin-top:14px;padding:11px 14px;border-radius:12px;font-size:13.5px;display:none;gap:10px;align-items:flex-start;border:1px solid;
+  }
+  .alert.show{display:flex;animation:pop .35s cubic-bezier(.2,.9,.3,1.2)}
+  .alert .ic{width:18px;height:18px;margin-top:1px}
+  .alert.warn{background:var(--warn-bg);border-color:var(--warn-line);color:#7a3a05}
+  .alert.ok{background:var(--ok-bg);border-color:var(--ok-line);color:#0b5c40}
+  .alert.err{background:var(--danger-bg);border-color:#f2c1bd;color:#8f261e}
+  .sep{height:1px;background:var(--line);margin:22px 0 18px}
 
-    /* Responsive */
-    @media (min-width:800px){
-      .hero{grid-template-columns:1fr 420px}
-      .figure{height:320px}
-    }
+  /* ============ LISTAGEM ============ */
+  .list-col{min-width:0}
+  .list-head{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin-bottom:16px}
+  .list-head h2{margin:0;font-size:20px;letter-spacing:-.015em;font-weight:650;color:var(--ink)}
+  .list-head p{margin:2px 0 0;font-size:13px;color:var(--muted)}
+  .toolbar{display:flex;flex-wrap:wrap;gap:8px}
+  .list-wrap{padding:0;overflow:hidden}
+  .list-wrap .bar{
+    display:flex;align-items:center;gap:8px;padding:13px 22px;border-bottom:1px solid var(--line);
+    background:linear-gradient(#fbfcfe,#f6f8fc);font-size:12px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-weight:600;
+  }
+  .dots{display:flex;gap:6px;margin-right:6px}
+  .dots i{width:9px;height:9px;border-radius:50%;background:#d6dde9;display:block}
+  .sheet{padding:44px 54px 52px;min-height:360px;background:#fff}
+  #listing{font-family:var(--doc);color:#111;font-size:18px;line-height:1.45;max-width:760px}
 
-    /* small niceties */
-    .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(183,28,28,0.08);color:var(--vermelho);font-weight:700}
-    .list{margin:0;padding-left:18px}
-    .nav-toggle{display:none}
-  </style>
+  .rec{position:relative;margin:0 0 20px;padding:4px 112px 4px 0;border-radius:10px;transition:background .3s}
+  .rec.group-start{margin-top:34px}
+  .rec:first-child{margin-top:0}
+  .rec-title,.rec-months{margin:0}
+  .rec-title strong{font-weight:700;color:#0b1220;letter-spacing:.005em}
+  .rec-months{margin-top:8px;color:#1d2433}
+  .rec.enter{animation:slideIn .5s cubic-bezier(.2,.8,.2,1)}
+  .rec.flash{animation:flashOk 1.4s ease}
+  .rec.flash-warn{animation:flashWarn 1.6s ease}
+  .rec.editing{background:linear-gradient(90deg,rgba(234,240,255,.8),rgba(234,240,255,0));box-shadow:-14px 0 0 0 rgba(234,240,255,.8);}
+  .rec-actions{position:absolute;right:0;top:0;display:flex;gap:4px;opacity:0;transition:opacity .2s;font-family:var(--ui)}
+  .rec:hover .rec-actions,.rec:focus-within .rec-actions,.rec.editing .rec-actions{opacity:1}
+  @media (hover:none){.rec-actions{opacity:1}}
+  .icon-btn{
+    width:36px;height:36px;border-radius:10px;border:1px solid transparent;background:transparent;color:var(--muted);
+    display:grid;place-items:center;cursor:pointer;transition:background .18s,color .18s,border-color .18s,transform .15s;
+  }
+  .icon-btn:hover{background:var(--primary-soft);color:var(--primary);border-color:#cfdcff;transform:translateY(-1px)}
+  .icon-btn.del:hover{background:var(--danger-bg);color:var(--danger);border-color:#f2c1bd}
+  .icon-btn.on{background:var(--primary);color:#fff}
+
+  .editor{margin-top:14px;font-family:var(--ui);animation:fadeDown .3s ease}
+  .editor-label{display:block;font-size:12px;color:var(--muted);margin-bottom:9px;font-weight:600;letter-spacing:.02em}
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .chip{
+    display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:99px;font-size:13px;font-weight:600;cursor:pointer;
+    border:1.5px dashed #b9c6dc;background:#fff;color:var(--ink-2);transition:all .18s;
+  }
+  .chip .ic{width:14px;height:14px;stroke-width:2.2}
+  .chip:hover{border-color:var(--primary-2);color:var(--primary);transform:translateY(-1px)}
+  .chip.on{border:1.5px solid var(--primary);background:var(--primary);color:#fff;box-shadow:0 6px 14px -8px rgba(36,71,214,.8)}
+  .chip.on:hover{background:#1c3bb8;color:#fff}
+  .editor-foot{margin-top:12px}
+  .btn-sm{height:36px;font-size:13px;padding:0 14px;border-radius:11px}
+
+  .empty{font-family:var(--ui);text-align:center;padding:50px 20px 40px;color:var(--muted)}
+  .empty .art{width:74px;height:74px;border-radius:22px;margin:0 auto 18px;display:grid;place-items:center;background:var(--primary-soft);color:var(--primary)}
+  .empty .art .ic{width:34px;height:34px;stroke-width:1.5}
+  .empty h3{margin:0 0 6px;color:var(--ink);font-size:17px;font-weight:650}
+  .empty p{margin:0 auto;max-width:360px;font-size:14px}
+
+  /* ============ DIALOGS ============ */
+  dialog{border:0;padding:0;border-radius:22px;box-shadow:var(--shadow-lg);color:var(--ink);background:#fff;width:min(92vw,440px);font-family:var(--ui);overflow:hidden}
+  dialog::backdrop{background:rgba(8,16,34,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+  dialog[open]{animation:pop .3s cubic-bezier(.2,.9,.3,1.15)}
+  .dlg-body{padding:26px 26px 8px}
+  .dlg-ic{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--danger-bg);color:var(--danger);margin-bottom:14px}
+  .dlg-ic.info{background:var(--primary-soft);color:var(--primary)}
+  .dlg-ic .ic{width:24px;height:24px}
+  dialog h3{margin:0 0 6px;font-size:19px;letter-spacing:-.01em}
+  dialog p.t{margin:0;color:var(--ink-2);font-size:14.5px}
+  .dlg-foot{display:flex;gap:10px;justify-content:flex-end;padding:20px 26px 24px}
+  #dlgManage{width:min(94vw,720px)}
+  .m-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:24px 26px 14px}
+  .m-head p{margin:2px 0 0;font-size:13.5px;color:var(--muted)}
+  .m-list{max-height:min(46vh,380px);overflow:auto;padding:4px 26px 8px}
+  .m-cols,.m-row,.m-add{display:grid;grid-template-columns:170px minmax(0,1fr) 40px;gap:8px;align-items:center}
+  .m-cols{padding:0 26px;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:6px}
+  .m-row{margin-bottom:8px}
+  .inp{
+    width:100%;height:42px;border-radius:11px;border:1.5px solid var(--line-2);padding:0 12px;background:#fbfcfe;font-size:14px;transition:border-color .2s,box-shadow .2s;
+  }
+  .inp:focus{outline:none;border-color:var(--primary-2);box-shadow:0 0 0 4px rgba(61,109,242,.14);background:#fff}
+  .inp.op{text-transform:uppercase;font-weight:700;letter-spacing:.03em}
+  .inp.op::placeholder{text-transform:none;font-weight:400;letter-spacing:0}
+  .m-add-wrap{padding:16px 26px 22px;background:#f7f9fd;border-top:1px solid var(--line)}
+  .m-add-wrap h4{margin:0 0 10px;font-size:13px;color:var(--ink-2)}
+  .m-add{grid-template-columns:170px minmax(0,1fr) auto}
+  .m-msg{min-height:20px;font-size:13px;margin-top:10px;color:var(--danger)}
+  .m-msg.ok{color:var(--ok)}
+
+  /* ============ TOAST ============ */
+  #toasts{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:50;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none;width:calc(100% - 32px)}
+  .toast{
+    display:flex;gap:10px;align-items:center;padding:12px 18px;border-radius:14px;background:var(--navy);color:#fff;font-size:14px;font-weight:500;
+    box-shadow:0 18px 40px -14px rgba(8,16,34,.6);animation:toastIn .35s cubic-bezier(.2,.9,.3,1.1);max-width:460px;
+  }
+  .toast.out{animation:toastOut .3s forwards}
+  .toast .ic{color:#6ee7b7}
+  .toast.warn .ic{color:#fcd34d}
+
+  footer.note{max-width:1180px;margin:-30px auto 40px;padding:0 24px;color:var(--muted);font-size:12.5px;text-align:center}
+
+  @keyframes pop{from{opacity:0;transform:scale(.96) translateY(6px)}to{opacity:1;transform:none}}
+  @keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  @keyframes fadeDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+  @keyframes flashOk{0%,40%{background:rgba(16,185,129,.18);box-shadow:-14px 0 0 0 rgba(16,185,129,.18)}100%{background:transparent;box-shadow:-14px 0 0 0 transparent}}
+  @keyframes flashWarn{0%,45%{background:rgba(245,158,11,.25);box-shadow:-14px 0 0 0 rgba(245,158,11,.25)}100%{background:transparent;box-shadow:-14px 0 0 0 transparent}}
+  @keyframes toastIn{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+  @keyframes toastOut{to{opacity:0;transform:translateY(10px)}}
+  @keyframes shake{0%,100%{transform:none}20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+  .shake{animation:shake .4s}
+
+  /* ============ RESPONSIVO ============ */
+  @media (max-width:980px){
+    main{grid-template-columns:1fr}
+    .form-col{position:static}
+  }
+  @media (max-width:640px){
+    .hero{padding:26px 18px 108px}
+    main{padding:0 14px;margin-top:-70px}
+    .stat{min-width:0;flex:1}
+    .sheet{padding:28px 22px 34px}
+    #listing{font-size:17px}
+    .rec{padding-right:0}
+    .rec-actions{position:static;margin-top:8px;margin-left:-8px}
+    .toolbar{width:100%}
+    .toolbar .btn{flex:1;padding:0 10px}
+    .form-card{padding:20px}
+    .m-cols{display:none}
+    .m-row,.m-add{grid-template-columns:1fr 40px}
+    .m-row .op,.m-add .op{grid-column:1/3}
+    .m-row .ad{grid-column:1}
+    .m-add{grid-template-columns:1fr}
+    .m-add .btn{width:100%}
+    footer.note{padding:0 14px}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+  /* ============ IMPRESSÃO ============ */
+  @media print{
+    @page{margin:2.2cm 2.4cm}
+    html,body{background:#fff!important}
+    .hero,.form-col,.list-head,.list-wrap .bar,.no-print,#toasts,dialog,footer.note,.editor,.rec-actions,.empty{display:none!important}
+    main{display:block!important;margin:0!important;padding:0!important;max-width:none!important}
+    .panel,.list-wrap{border:0!important;box-shadow:none!important;border-radius:0!important;background:#fff!important;overflow:visible!important}
+    .sheet{padding:0!important;min-height:0!important}
+    #listing{font-size:12pt;line-height:1.5;max-width:none;color:#000}
+    .rec{padding:0!important;margin:0 0 14pt!important;break-inside:avoid;animation:none!important;background:none!important;box-shadow:none!important}
+    .rec.group-start{margin-top:20pt!important}
+    .rec:first-child{margin-top:0!important}
+    .rec-months{margin-top:6pt}
+  }
+</style>
 </head>
 <body>
-  <header>
-    <div class="container nav">
+
+<header class="hero no-print">
+  <div class="hero-in">
+    <div>
       <div class="brand">
-        <div class="logo">FL</div>
-        <div>
-          <div style="font-weight:800">Flamenco</div>
-          <div style="font-size:.85rem;color:rgba(255,255,255,0.9)">Cultura e tradição espanhola</div>
-        </div>
+        <div class="logo"><svg class="ic" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14l-2.5-1.5L14 21l-2.5-1.5L9 21l-2.5-1.5L4 21V5a2 2 0 0 1 2-2Z"/><path d="M8.5 9h7M8.5 13h7"/></svg></div>
+        <div><b>Controle de Boletos</b><span>Gestão de pendências mensais</span></div>
       </div>
-      <nav aria-label="Navegação principal">
-        <a href="#historia">História</a>
-        <a href="#musica">Música</a>
-        <a href="#baile">Baile</a>
-        <a href="#trajes">Trajes</a>
-        <a href="#contato">Contato</a>
-      </nav>
+      <h1>Boletos pendentes<br>de pagamento</h1>
+      <p class="lead">Registre os meses em aberto de cada endereço e gere a listagem organizada por operadora, pronta para copiar ou imprimir.</p>
     </div>
-  </header>
+    <div class="stats">
+      <div class="stat"><small>Registros</small><strong id="statRec">0</strong></div>
+      <div class="stat"><small>Meses em aberto</small><strong id="statMonths">0</strong></div>
+    </div>
+  </div>
+</header>
 
-  <main>
-    <section class="hero">
-      <div class="container hero-inner">
-        <div class="card">
-          <h1>Flamenco — alma, ritmo e movimento</h1>
-          <p class="lead">O flamenco é uma expressão artística originária do sul da Espanha — especialmente da Andaluzia — que combina canto, guitarra, dança e palmas. Neste site você encontrará informações sobre sua história, estilos (palos), instrumentos, trajes típicos e a importância cultural do flamenco nos festivais espanhóis.</p>
-          <div class="cta"><a class="btn" href="#historia">Começar a explorar</a></div>
-        </div>
+<main>
+  <!-- ===== FORMULÁRIO ===== -->
+  <aside class="form-col no-print">
+    <section class="panel form-card" aria-labelledby="ttlForm">
+      <div class="card-head">
+        <div class="chip-ic"><svg class="ic" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17M12 13.5v4M10 15.5h4"/></svg></div>
+        <div><h2 id="ttlForm">Nova pendência</h2><p>Selecione e adicione à listagem</p></div>
       </div>
-      <div class="container">
-        <div class="figure card" aria-hidden="false" style="padding:0">
-  <img src="https://images.unsplash.com/photo-1508609349937-5ec4ae374ebf" alt="Guitarrista flamenco" style="width:100%;height:100%;object-fit:cover;">
-</div>
-            <div style="margin-top:8px;color:var(--vermelho);font-weight:700">Guitarra & Palmas</div>
+
+      <form id="form" novalidate autocomplete="off">
+        <div class="field">
+          <label for="selAddr">Endereço</label>
+          <div class="control">
+            <svg class="ic" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+            <select id="selAddr" class="select"></select>
           </div>
+          <div class="hint" id="addrHint"></div>
         </div>
-      </div>
-    </section>
 
-    <section id="historia">
-      <div class="container card">
-        <h2>História</h2>
-        <p class="muted">O flamenco tem raízes complexas: é fruto de uma mistura de tradições ciganas (gitano), mouriscas, judaicas e cristãs que se desenvolveram ao longo dos séculos na Andaluzia. Cresceu como forma de expressão popular, ligada a festas, tabernas e apresentações íntimas — até tornar-se uma arte reconhecida internacionalmente.</p>
-        <div style="margin-top:12px">Principais marcos históricos:</div>
-        <ul class="list">
-          <li>séculos XVIII–XIX: consolidação do cante jondo e primeiros registros escritos;</li>
-          <li>século XX: profissionalização, casas de flamenco e espetáculos teatrais;</li>
-          <li>anos recentes: reconhecimento global e inclusão em eventos culturais.</li>
-        </ul>
-      </div>
-    </section>
-
-    <section id="musica">
-      <div class="container grid cols-2">
-        <div class="card">
-          <h2>Música (Cante e Toque)</h2>
-          <p class="muted">A música do flamenco é marcada pelo cante (canto) e pelo toque (guitarra). Existem muitos "palos" (estilos) — como soleá, bulería, tangos e seguiriyas — cada um com andamento, compasso e emoção próprios.</p>
-          <h3>Instrumentos</h3>
-          <ul class="list">
-            <li>Guitarra flamenca — técnica e rasgueados característicos;</li>
-            <li>Cajón — caixa rítmica muito usada nas formas modernas;</li>
-            <li>Palmas e pitos — marcação rítmica e resposta ao cante;</li>
-            <li>Castanholas e o uso ocasional de percussão adicional.</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h2>Como ouvir</h2>
-          <p class="muted">Ao ouvir flamenco, preste atenção nas nuances do compasso, na intensidade emocional do cante e na interação entre guitarrista e cantor. Em apresentações ao vivo, a improvisação — sobretudo na dança — é parte essencial.</p>
-          <div style="margin-top:12px"><span class="badge">Dica</span> Busque gravações clássicas de artistas andaluzes e apresentações ao vivo para sentir a intensidade do estilo.</div>
-        </div>
-      </div>
-    </section>
-
-    <section id="baile">
-      <div class="container card">
-        <h2>Baile (Dança)</h2>
-        <p class="muted">O baile flamenco combina postura, marcação dos pés (zapateado), braços e expressão facial. Há variações entre solistas, duos e grupos; a interação com o cante e a guitarra é central — a dança conversando com a música.</p>
-        <h3>Elementos da dança</h3>
-        <ul class="list">
-          <li>Zapateado — percussão dos pés que cria padrões rítmicos;</li>
-          <li>Braceo — movimentos expressivos dos braços e mãos;</li>
-          <li>Expressão — intensidade emocional e contato visual com o público;</li>
-          <li>Improvisação dentro das estruturas rítmicas dos palos.</li>
-        </ul>
-      </div>
-    </section>
-
-    <section id="trajes">
-      <div class="container grid cols-2">
-        <div class="card">
-          <h2>Trajes e Estética</h2>
-          <p class="muted">Os trajes típicos reforçam a identidade visual do flamenco: vestidos longos com babados (bata de cola) para as mulheres, e trajes elegantes (chaqué, calças justas e sapatos de salto firme) para os homens. As cores vermelhas e amarelas também aparecem em acessórios, leques e rosas — símbolos visuais fortes.</p>
-          <h3>Acessórios</h3>
-          <ul class="list">
-            <li>Leque (abanico) — usado tanto para beleza quanto para ritmo;</li>
-            <li>Peineta e mantilha — enfeites tradicionais do cabelo;</li>
-            <li>Sapatos de flamenco — solado reforçado para o zapateado;</li>
-            <li>Adornos: flores, joias e cintos.</li>
-          </ul>
-        </div>
-        <div class="card">
-          <div class="figure" role="img" aria-label="Traje de flamenco" style="padding:0">
-  <img src="https://images.unsplash.com/photo-1483794344563-d27a8d18014e" alt="Traje tradicional espanhol de flamenco" style="width:100%;height:100%;object-fit:cover;">
-</div>
-              <div style="margin-top:6px;font-weight:700;color:var(--vermelho)">Traje tradicional</div>
+        <div class="row2">
+          <div class="field">
+            <label for="selMonth">Mês</label>
+            <div class="control">
+              <svg class="ic" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg>
+              <select id="selMonth" class="select"></select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="selYear">Ano</label>
+            <div class="control">
+              <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
+              <select id="selYear" class="select"></select>
             </div>
           </div>
         </div>
-      </div>
-    </section>
 
-    <section id="festivais">
-      <div class="container card">
-        <h2>Festivais e Celebrações</h2>
-        <p class="muted">O flamenco está presente em feiras e festivais, como a famosa Feria de Abril em Sevilha e vários festivais de flamenco na Andaluzia e no mundo. Essas celebrações mantêm viva a tradição e mostram tanto mestres consagrados quanto novos talentos.</p>
-      </div>
-    </section>
+        <button type="submit" class="btn btn-primary" id="btnAdd">
+          <svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          Adicionar pendência
+        </button>
+        <div class="alert" id="formAlert" role="status" aria-live="polite"></div>
+      </form>
 
-    <section id="aprender">
-      <div class="container grid cols-2">
-        <div class="card">
-          <h2>Quer aprender?</h2>
-          <p class="muted">Procure aulas presenciais em escolas de dança ou estúdios especializados. O aprendizado envolve técnica de pés, postura, coordenação com a guitarra e entendimento dos palos. A prática com músicos ao vivo acelera o progresso.</p>
-          <ol class="list">
-            <li>Comece com palmas e compasso para internalizar o ritmo;</li>
-            <li>Treine zapateado com exercícios curtos e repetitivos;</li>
-            <li>Assista a apresentações ao vivo e grave-se dançando para corrigir postura;</li>
-          </ol>
-        </div>
-        <div class="card">
-          <h2>Recursos</h2>
-          <p class="muted">Livros, vídeos e gravações históricas são ótimos recursos. Participe de rodas, encontros e festivais para vivenciar o flamenco em comunidade.</p>
-        </div>
-      </div>
+      <div class="sep"></div>
+      <button type="button" class="btn btn-ghost" id="btnManage">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
+        Gerenciar endereços e operadoras
+      </button>
     </section>
+  </aside>
 
-    <section id="contato">
-      <div class="container card">
-        <h2>Contato</h2>
-        <p class="muted">Se você quiser mais informações, indicações de livros, playlists ou sugestões de aulas, entre em contato.</p>
-        <form onsubmit="event.preventDefault();alert('Obrigado! Esta é uma demonstração.');" style="display:flex;flex-direction:column;gap:10px;max-width:560px">
-          <input required placeholder="Seu nome" style="padding:10px;border-radius:8px;border:1px solid #e0e0e0">
-          <input required type="email" placeholder="Seu e-mail" style="padding:10px;border-radius:8px;border:1px solid #e0e0e0">
-          <textarea required placeholder="Mensagem" rows="4" style="padding:10px;border-radius:8px;border:1px solid #e0e0e0"></textarea>
-          <button type="submit" class="btn">Enviar</button>
-        </form>
+  <!-- ===== LISTAGEM ===== -->
+  <section class="list-col" aria-labelledby="ttlList">
+    <div class="list-head">
+      <div class="no-print">
+        <h2 id="ttlList">Listagem de pendências</h2>
+        <p id="listSub">Nenhum registro</p>
       </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
-      <div>
-        <strong>Flamenco</strong> — Cultura Espanhola • Feito com ❤️
+      <div class="toolbar no-print">
+        <button type="button" class="btn" id="btnCopy"><svg class="ic" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="12" height="12" rx="2.5"/><path d="M15.5 8.5V6A2.5 2.5 0 0 0 13 3.5H6A2.5 2.5 0 0 0 3.5 6v7A2.5 2.5 0 0 0 6 15.5h2.5"/></svg><span>Copiar listagem</span></button>
+        <button type="button" class="btn" id="btnPrint"><svg class="ic" viewBox="0 0 24 24"><path d="M7 9V3.5h10V9"/><rect x="3.5" y="9" width="17" height="8" rx="2.5"/><path d="M7 14h10v6.5H7z"/></svg><span>Imprimir / Salvar PDF</span></button>
+        <button type="button" class="btn btn-danger" id="btnClear"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12.5A1.5 1.5 0 0 0 8.5 21h7a1.5 1.5 0 0 0 1.5-1.5L18 7M9 7V4.5h6V7"/></svg><span>Limpar tudo</span></button>
       </div>
-      <div style="font-size:.9rem;color:#4a4a4a">Direitos autorais © <span id="ano"></span></div>
     </div>
-  </footer>
 
-  <script>
-    document.getElementById('ano').textContent = new Date().getFullYear();
-  </script>
+    <div class="panel list-wrap">
+      <div class="bar no-print"><span class="dots"><i></i><i></i><i></i></span>Documento · Boletos pendentes</div>
+      <div class="sheet">
+        <div id="listing" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="note no-print">Os dados são salvos automaticamente neste navegador (localStorage).</footer>
+
+<div id="toasts" class="no-print" aria-live="polite"></div>
+
+<!-- Confirmação -->
+<dialog id="dlgConfirm" class="no-print">
+  <form method="dialog">
+    <div class="dlg-body">
+      <div class="dlg-ic" id="cIcon"><svg class="ic" viewBox="0 0 24 24"><path d="M12 8.5v5M12 17h.01"/><path d="M10.3 4.2 2.9 17a2 2 0 0 0 1.7 3h14.8a2 2 0 0 0 1.7-3L13.7 4.2a2 2 0 0 0-3.4 0Z"/></svg></div>
+      <h3 id="cTitle"></h3>
+      <p class="t" id="cText"></p>
+    </div>
+    <div class="dlg-foot">
+      <button class="btn" value="cancel" id="cCancel">Cancelar</button>
+      <button class="btn btn-solid-danger" value="ok" id="cOk">Confirmar</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Gerenciar endereços -->
+<dialog id="dlgManage" class="no-print">
+  <div class="m-head">
+    <div>
+      <h3>Endereços e operadoras</h3>
+      <p>Defina a operadora de cada endereço. Alterações são salvas automaticamente e refletidas na listagem.</p>
+    </div>
+    <form method="dialog"><button class="icon-btn" aria-label="Fechar"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></form>
+  </div>
+  <div class="m-cols"><span>Operadora</span><span>Endereço</span><span></span></div>
+  <div class="m-list" id="mList"></div>
+  <div class="m-add-wrap">
+    <h4>Adicionar novo endereço / serviço</h4>
+    <div class="m-add">
+      <input class="inp op" id="mOp" placeholder="Operadora" aria-label="Operadora">
+      <input class="inp" id="mAd" placeholder="Endereço (ex.: Rua Acopiara, 2340)" aria-label="Endereço">
+      <button type="button" class="btn" id="mAddBtn"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Adicionar</button>
+    </div>
+    <div class="m-msg" id="mMsg" role="status"></div>
+  </div>
+</dialog>
+
+<script>
+(function(){
+  'use strict';
+
+  /* =====================================================
+     CONFIGURAÇÃO
+     - Para adicionar novos anos, basta incluí-los em YEARS.
+     - Meses: janeiro a novembro.
+     ===================================================== */
+  var MONTHS = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro'];
+  var YEARS = [2026];            // <- adicione outros anos aqui no futuro, ex.: [2026, 2027]
+  var DEFAULT_YEAR = 2026;
+  var STORAGE_KEY = 'controle_boletos_v1';
+  var OPERATOR_ORDER = ['VIVO','BRISANET','ALARES']; // ordem de agrupamento na listagem (conforme o documento)
+
+  var SEED_ENTRIES = [
+    {id:'e01', operator:'VIVO',     address:'Av. Senhor do Bonfim, 2081'},
+    {id:'e02', operator:'BRISANET', address:'Av. Senhor do Bonfim, 2081'},
+    {id:'e03', operator:'',         address:'Av. Senhor do Bonfim, 2081 A'},
+    {id:'e04', operator:'',         address:'Av. Senhor do Bonfim, 2069'},
+    {id:'e05', operator:'',         address:'Rua Limoeiro do Norte, 2329'},
+    {id:'e06', operator:'',         address:'Rua Limoeiro do Norte, 25 A'},
+    {id:'e07', operator:'BRISANET', address:'R. Limoeiro do Norte, 25'},
+    {id:'e08', operator:'',         address:'Rua Acopiara, 2346'},
+    {id:'e09', operator:'ALARES',   address:'R. Acopiara, 2334'},
+    {id:'e10', operator:'',         address:'Rua Acopiara, 2334 A'},
+    {id:'e11', operator:'VIVO',     address:'Rua Acopiara, 2332'},
+    {id:'e12', operator:'',         address:'Rua Acopiara 2326'},
+    {id:'e13', operator:'',         address:'Rua Acopiara, 2326 A'},
+    {id:'e14', operator:'',         address:'Rua Acopiara, 2338'},
+    {id:'e15', operator:'',         address:'Rua Pedra Branca, 2572'}
+  ];
+
+  /* ---------- Ícones ---------- */
+  var I = {
+    edit:'<svg class="ic" viewBox="0 0 24 24"><path d="M4 20h4L19.5 8.5a2.1 2.1 0 0 0-3-3L5 17v3Z"/><path d="m14.5 7.5 3 3"/></svg>',
+    trash:'<svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12.5A1.5 1.5 0 0 0 8.5 21h7a1.5 1.5 0 0 0 1.5-1.5L18 7M9 7V4.5h6V7"/></svg>',
+    check:'<svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
+    x:'<svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+    plus:'<svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>',
+    warn:'<svg class="ic" viewBox="0 0 24 24"><path d="M12 8.5v5M12 17h.01"/><path d="M10.3 4.2 2.9 17a2 2 0 0 0 1.7 3h14.8a2 2 0 0 0 1.7-3L13.7 4.2a2 2 0 0 0-3.4 0Z"/></svg>',
+    doc:'<svg class="ic" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" transform="translate(0 0)"/><path d="M14 3v5h5M8.5 13h7M8.5 17h5"/></svg>'
+  };
+
+  /* ---------- Utilidades ---------- */
+  function $(id){ return document.getElementById(id); }
+  function esc(s){ return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+  function uid(){ return 'i'+Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+  function norm(s){ return String(s||'').replace(/\s+/g,' ').trim(); }
+
+  /* ---------- Persistência ---------- */
+  var memoryStore = null;
+  function load(){
+    var raw = null;
+    try{ raw = localStorage.getItem(STORAGE_KEY); }catch(e){ raw = memoryStore; }
+    if(raw){
+      try{
+        var d = JSON.parse(raw);
+        if(d && Array.isArray(d.entries) && Array.isArray(d.pendings)) return d;
+      }catch(e){}
+    }
+    return {entries: JSON.parse(JSON.stringify(SEED_ENTRIES)), pendings: []};
+  }
+  function save(){
+    var raw = JSON.stringify(state);
+    try{ localStorage.setItem(STORAGE_KEY, raw); }catch(e){ memoryStore = raw; }
+  }
+
+  var state = load();
+  var editing = {};            // ids de pendências em modo edição
+  var anim = {id:null, cls:''}; // animação pontual após uma ação
+
+  function entryById(id){ for(var i=0;i<state.entries.length;i++){ if(state.entries[i].id===id) return state.entries[i]; } return null; }
+
+  /* ---------- Regras de formatação ---------- */
+  function sortMonths(arr){ return arr.slice().sort(function(a,b){return a-b;}); }
+
+  function monthsText(months){
+    var names = sortMonths(months).map(function(m){ return MONTHS[m]; });
+    if(names.length===1) return 'Falta '+names[0];
+    if(names.length===2) return 'Falta '+names[0]+' e '+names[1];
+    return 'Falta '+names.slice(0,-1).join(', ')+' e '+names[names.length-1];
+  }
+  function titleParts(e, year){
+    return {op: e.operator, rest: e.address+' – '+year};
+  }
+  function titlePlain(e, year){
+    return (e.operator ? e.operator+' – ' : '') + e.address + ' – ' + year;
+  }
+  function titleHTML(e, year){
+    return (e.operator ? '<strong>'+esc(e.operator)+'</strong> – ' : '') + esc(e.address) + ' – ' + esc(year);
+  }
+
+  /* ---------- Ordenação: por operadora, depois ordem dos endereços, depois ano ---------- */
+  function operatorRank(op){
+    if(!op) return 9999;
+    var i = OPERATOR_ORDER.indexOf(op);
+    if(i>-1) return i;
+    var seen=[];
+    for(var k=0;k<state.entries.length;k++){
+      var o=state.entries[k].operator;
+      if(o && OPERATOR_ORDER.indexOf(o)===-1 && seen.indexOf(o)===-1) seen.push(o);
+    }
+    return 100 + seen.indexOf(op);
+  }
+  function sortedEntries(){
+    return state.entries.map(function(e,i){return {e:e,i:i};}).sort(function(a,b){
+      var r = operatorRank(a.e.operator)-operatorRank(b.e.operator);
+      return r || (a.i-b.i);
+    }).map(function(x){return x.e;});
+  }
+  function sortedRecords(){
+    var out=[];
+    state.pendings.forEach(function(p){
+      var idx=-1;
+      for(var i=0;i<state.entries.length;i++){ if(state.entries[i].id===p.entryId){ idx=i; break; } }
+      if(idx>-1 && p.months.length) out.push({p:p, e:state.entries[idx], idx:idx});
+    });
+    out.sort(function(a,b){
+      var r = operatorRank(a.e.operator)-operatorRank(b.e.operator);
+      if(r) return r;
+      if(a.idx!==b.idx) return a.idx-b.idx;
+      return a.p.year-b.p.year;
+    });
+    return out;
+  }
+
+  function plainListing(){
+    return sortedRecords().map(function(r){
+      return titlePlain(r.e, r.p.year)+'\n'+monthsText(r.p.months);
+    }).join('\n\n');
+  }
+
+  /* ---------- Renderização: formulário ---------- */
+  var selAddr=$('selAddr'), selMonth=$('selMonth'), selYear=$('selYear');
+
+  function renderAddrSelect(){
+    var cur = selAddr.value;
+    var html = '<option value="" disabled selected>Selecione o endereço</option>';
+    sortedEntries().forEach(function(e){
+      var label = e.operator ? e.operator+' · '+e.address : e.address+'  (sem operadora)';
+      html += '<option value="'+esc(e.id)+'">'+esc(label)+'</option>';
+    });
+    selAddr.innerHTML = html;
+    if(cur && entryById(cur)) selAddr.value = cur;
+    updateHint();
+  }
+  function renderMonthSelect(){
+    var html='<option value="" disabled selected>Selecione</option>';
+    MONTHS.forEach(function(m,i){ html+='<option value="'+i+'">'+m.charAt(0).toUpperCase()+m.slice(1)+'</option>'; });
+    selMonth.innerHTML=html;
+  }
+  function renderYearSelect(){
+    var cur = selYear.value;
+    var ys = YEARS.slice();
+    state.pendings.forEach(function(p){ if(ys.indexOf(p.year)===-1) ys.push(p.year); });
+    ys.sort(function(a,b){return a-b;});
+    selYear.innerHTML = ys.map(function(y){ return '<option value="'+y+'">'+y+'</option>'; }).join('');
+    selYear.value = cur && ys.indexOf(Number(cur))>-1 ? cur : String(DEFAULT_YEAR);
+  }
+  function updateHint(){
+    var h = $('addrHint'); var e = entryById(selAddr.value);
+    h.classList.remove('warn');
+    if(!e){ h.innerHTML='Endereços repetidos são diferenciados pela operadora.'; return; }
+    if(e.operator){ h.innerHTML='Operadora: <span class="tag">'+esc(e.operator)+'</span>'; }
+    else{ h.classList.add('warn'); h.innerHTML='Operadora não definida. <button type="button" class="linkbtn" id="hintLink">Definir agora</button>'; }
+  }
+
+  var alertTimer=null;
+  function showAlert(msg, type){
+    var a=$('formAlert');
+    var icon = type==='ok' ? I.check : I.warn;
+    a.className='alert show '+type;
+    a.innerHTML=icon+'<span>'+esc(msg)+'</span>';
+    clearTimeout(alertTimer);
+    alertTimer=setTimeout(function(){ a.className='alert'; }, 5500);
+  }
+
+  /* ---------- Renderização: listagem ---------- */
+  function editorHTML(p){
+    var chips = MONTHS.map(function(m,i){
+      var on = p.months.indexOf(i)>-1;
+      return '<button type="button" class="chip'+(on?' on':'')+'" data-action="toggle" data-month="'+i+'" aria-pressed="'+on+'">'+m+(on?I.x:I.plus)+'</button>';
+    }).join('');
+    return '<div class="editor no-print"><span class="editor-label">Meses pendentes — toque para remover ou adicionar</span><div class="chips">'+chips+'</div>'+
+           '<div class="editor-foot"><button type="button" class="btn btn-sm" data-action="done">'+I.check+'Concluir edição</button></div></div>';
+  }
+
+  function renderList(){
+    var recs = sortedRecords();
+    var box = $('listing');
+    if(!recs.length){
+      box.innerHTML = '<div class="empty no-print"><div class="art">'+I.doc+'</div><h3>Nenhuma pendência registrada</h3><p>Escolha um endereço, o mês e o ano no painel ao lado e clique em “Adicionar pendência”. A listagem será montada automaticamente.</p></div>';
+    } else {
+      var html='', prev=null;
+      recs.forEach(function(r,i){
+        var rk = operatorRank(r.e.operator);
+        var gs = i>0 && rk!==prev; prev=rk;
+        var isEd = !!editing[r.p.id];
+        var cls = 'rec'+(gs?' group-start':'')+(isEd?' editing':'');
+        if(anim.id===r.p.id) cls+=' '+anim.cls;
+        html += '<article class="'+cls+'" data-id="'+esc(r.p.id)+'">'+
+          '<p class="rec-title">'+titleHTML(r.e, r.p.year)+'</p>'+
+          '<p class="rec-months">'+esc(monthsText(r.p.months))+'</p>'+
+          (isEd ? editorHTML(r.p) : '')+
+          '<div class="rec-actions no-print">'+
+            '<button type="button" class="icon-btn'+(isEd?' on':'')+'" data-action="edit" title="Editar meses" aria-label="Editar pendências">'+(isEd?I.check:I.edit)+'</button>'+
+            '<button type="button" class="icon-btn del" data-action="delete" title="Excluir endereço da listagem" aria-label="Excluir endereço da listagem">'+I.trash+'</button>'+
+          '</div></article>';
+      });
+      box.innerHTML = html;
+      if(anim.id){
+        var el = box.querySelector('[data-id="'+anim.id+'"]');
+        if(el && el.scrollIntoView){ try{ el.scrollIntoView({block:'nearest',behavior:'smooth'}); }catch(e){} }
+      }
+    }
+    anim = {id:null, cls:''};
+
+    var total = recs.reduce(function(s,r){return s+r.p.months.length;},0);
+    $('statRec').textContent = recs.length;
+    $('statMonths').textContent = total;
+    $('listSub').textContent = recs.length
+      ? recs.length+(recs.length===1?' registro · ':' registros · ')+total+(total===1?' mês em aberto':' meses em aberto')
+      : 'Nenhum registro';
+  }
+
+  function renderAll(){ renderYearSelect(); renderList(); }
+
+  /* ---------- Toast ---------- */
+  function toast(msg, type){
+    var t=document.createElement('div');
+    t.className='toast '+(type||'');
+    t.innerHTML=(type==='warn'?I.warn:I.check)+'<span>'+esc(msg)+'</span>';
+    $('toasts').appendChild(t);
+    setTimeout(function(){ t.classList.add('out'); setTimeout(function(){ t.remove(); },320); }, 2600);
+  }
+
+  /* ---------- Confirmação ---------- */
+  function ask(opts){
+    return new Promise(function(resolve){
+      var dlg=$('dlgConfirm');
+      if(typeof dlg.showModal!=='function'){ resolve(window.confirm(opts.title+'\n\n'+opts.text)); return; }
+      $('cTitle').textContent=opts.title;
+      $('cText').textContent=opts.text;
+      $('cOk').textContent=opts.ok||'Confirmar';
+      function done(){ dlg.removeEventListener('close',done); resolve(dlg.returnValue==='ok'); }
+      dlg.returnValue='cancel';
+      dlg.addEventListener('close',done);
+      dlg.showModal();
+    });
+  }
+
+  /* ---------- Ações: adicionar pendência ---------- */
+  function addPending(entryId, month, year){
+    var found=null;
+    state.pendings.forEach(function(p){ if(p.entryId===entryId && p.year===year) found=p; });
+    if(found){
+      if(found.months.indexOf(month)>-1) return {dup:true, p:found};
+      found.months.push(month);
+      found.months=sortMonths(found.months);
+      return {dup:false, p:found, merged:true};
+    }
+    var np={id:uid(), entryId:entryId, year:year, months:[month]};
+    state.pendings.push(np);
+    return {dup:false, p:np, merged:false};
+  }
+
+  $('form').addEventListener('submit', function(ev){
+    ev.preventDefault();
+    [selAddr,selMonth].forEach(function(s){ s.classList.remove('invalid'); });
+    var entryId=selAddr.value, mv=selMonth.value, year=Number(selYear.value);
+    var bad=null;
+    if(!entryId){ selAddr.classList.add('invalid'); bad=selAddr; }
+    else if(mv===''){ selMonth.classList.add('invalid'); bad=selMonth; }
+    if(bad){
+      showAlert(!entryId ? 'Selecione um endereço para continuar.' : 'Selecione o mês pendente.','warn');
+      bad.classList.remove('shake'); void bad.offsetWidth; bad.classList.add('shake'); bad.focus();
+      return;
+    }
+    var e=entryById(entryId), month=Number(mv);
+    var res=addPending(entryId, month, year);
+    if(res.dup){
+      showAlert('A pendência de '+MONTHS[month]+' de '+year+' já existe para '+titlePlain(e,year).replace(/ – \d{4}$/,'')+'.','warn');
+      anim={id:res.p.id, cls:'flash-warn'};
+      renderList();
+      return;
+    }
+    save();
+    anim={id:res.p.id, cls: res.merged ? 'flash' : 'enter'};
+    renderAll();
+    showAlert(MONTHS[month].charAt(0).toUpperCase()+MONTHS[month].slice(1)+' de '+year+' adicionado à listagem.','ok');
+    selMonth.value=''; selMonth.focus();
+  });
+  [selAddr,selMonth].forEach(function(s){ s.addEventListener('change',function(){ s.classList.remove('invalid'); }); });
+  selAddr.addEventListener('change', updateHint);
+
+  /* ---------- Ações na listagem (edição / exclusão) ---------- */
+  $('listing').addEventListener('click', function(ev){
+    var btn = ev.target.closest('[data-action]'); if(!btn) return;
+    var rec = btn.closest('.rec'); if(!rec) return;
+    var id = rec.getAttribute('data-id');
+    var p = null; state.pendings.forEach(function(x){ if(x.id===id) p=x; });
+    if(!p) return;
+    var action = btn.getAttribute('data-action');
+
+    if(action==='edit'){
+      if(editing[id]) delete editing[id]; else editing[id]=true;
+      renderList();
+    } else if(action==='done'){
+      delete editing[id]; renderList();
+    } else if(action==='toggle'){
+      var m = Number(btn.getAttribute('data-month'));
+      var at = p.months.indexOf(m);
+      if(at>-1){
+        if(p.months.length===1){
+          ask({title:'Remover o último mês?', text:'Este endereço ficará sem meses pendentes e será excluído da listagem.', ok:'Remover'}).then(function(ok){
+            if(!ok) return;
+            removePending(id); toast('Registro removido da listagem');
+          });
+          return;
+        }
+        p.months.splice(at,1);
+      } else {
+        p.months.push(m); p.months=sortMonths(p.months);
+      }
+      save(); renderList();
+    } else if(action==='delete'){
+      var e = entryById(p.entryId);
+      ask({title:'Excluir da listagem?', text:'Todos os meses pendentes de “'+titlePlain(e,p.year)+'” serão removidos.', ok:'Excluir'}).then(function(ok){
+        if(!ok) return;
+        removePending(id); toast('Endereço excluído da listagem');
+      });
+    }
+  });
+  function removePending(id){
+    state.pendings = state.pendings.filter(function(x){ return x.id!==id; });
+    delete editing[id];
+    save(); renderAll();
+  }
+
+  /* ---------- Copiar / Imprimir / Limpar ---------- */
+  function copyText(t){
+    return new Promise(function(resolve){
+      function fallback(){
+        var ta=document.createElement('textarea');
+        ta.value=t; ta.setAttribute('readonly','');
+        ta.style.cssText='position:fixed;top:0;left:0;opacity:0';
+        document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0,t.length);
+        var ok=false; try{ ok=document.execCommand('copy'); }catch(e){}
+        ta.remove(); resolve(ok);
+      }
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(t).then(function(){resolve(true);}, fallback);
+      } else fallback();
+    });
+  }
+  $('btnCopy').addEventListener('click', function(){
+    var t=plainListing();
+    if(!t){ toast('Não há pendências para copiar.','warn'); return; }
+    copyText(t).then(function(ok){
+      if(ok){
+        toast('Listagem copiada para a área de transferência');
+        var s=$('btnCopy').querySelector('span'); s.textContent='Copiado!';
+        setTimeout(function(){ s.textContent='Copiar listagem'; },1800);
+      } else toast('Não foi possível copiar automaticamente.','warn');
+    });
+  });
+  $('btnPrint').addEventListener('click', function(){
+    if(!state.pendings.length){ toast('Não há pendências para imprimir.','warn'); return; }
+    editing={}; renderList();
+    window.print();
+  });
+  $('btnClear').addEventListener('click', function(){
+    if(!state.pendings.length){ toast('A listagem já está vazia.','warn'); return; }
+    ask({title:'Limpar todas as pendências?', text:'Todas as pendências registradas serão excluídas permanentemente. Os endereços cadastrados serão mantidos.', ok:'Limpar tudo'}).then(function(ok){
+      if(!ok) return;
+      state.pendings=[]; editing={}; save(); renderAll(); toast('Todas as pendências foram removidas');
+    });
+  });
+
+  /* ---------- Gerenciar endereços ---------- */
+  var dlgM=$('dlgManage');
+  function mMsg(txt, ok){ var m=$('mMsg'); m.textContent=txt||''; m.className='m-msg'+(ok?' ok':''); }
+  function renderManage(){
+    $('mList').innerHTML = state.entries.map(function(e){
+      return '<div class="m-row" data-id="'+esc(e.id)+'">'+
+        '<input class="inp op" data-field="operator" value="'+esc(e.operator)+'" placeholder="Sem operadora" aria-label="Operadora">'+
+        '<input class="inp ad" data-field="address" value="'+esc(e.address)+'" aria-label="Endereço">'+
+        '<button type="button" class="icon-btn del" data-del="'+esc(e.id)+'" title="Excluir endereço" aria-label="Excluir endereço">'+I.trash+'</button></div>';
+    }).join('');
+  }
+  function openManage(){
+    mMsg(''); renderManage();
+    if(typeof dlgM.showModal==='function') dlgM.showModal(); else dlgM.setAttribute('open','');
+  }
+  function duplicateEntry(op, ad, exceptId){
+    return state.entries.some(function(e){ return e.id!==exceptId && e.operator===op && e.address.toLowerCase()===ad.toLowerCase(); });
+  }
+  $('btnManage').addEventListener('click', openManage);
+  document.addEventListener('click', function(ev){ if(ev.target && ev.target.id==='hintLink') openManage(); });
+  dlgM.addEventListener('click', function(ev){ if(ev.target===dlgM) dlgM.close(); });
+
+  $('mList').addEventListener('change', function(ev){
+    var inp=ev.target; var field=inp.getAttribute('data-field'); if(!field) return;
+    var row=inp.closest('.m-row'); var e=entryById(row.getAttribute('data-id')); if(!e) return;
+    var val = norm(inp.value);
+    if(field==='operator') val = val.toUpperCase();
+    if(field==='address' && !val){ inp.value=e.address; mMsg('O endereço não pode ficar vazio.'); return; }
+    var newOp = field==='operator'?val:e.operator, newAd = field==='address'?val:e.address;
+    if(duplicateEntry(newOp,newAd,e.id)){ inp.value=e[field]; mMsg('Já existe esse endereço para essa operadora.'); return; }
+    e[field]=val; inp.value=val;
+    save(); mMsg('Alterações salvas.',true);
+    renderAddrSelect(); renderList();
+  });
+  $('mList').addEventListener('click', function(ev){
+    var b=ev.target.closest('[data-del]'); if(!b) return;
+    var id=b.getAttribute('data-del'); var e=entryById(id); if(!e) return;
+    var count=state.pendings.filter(function(p){return p.entryId===id;}).length;
+    ask({title:'Excluir este endereço?', text:'“'+(e.operator?e.operator+' – ':'')+e.address+'” será removido da lista de endereços'+(count?' e suas pendências serão apagadas da listagem.':'.'), ok:'Excluir'}).then(function(ok){
+      if(!ok) return;
+      state.entries=state.entries.filter(function(x){return x.id!==id;});
+      state.pendings=state.pendings.filter(function(p){return p.entryId!==id;});
+      save(); renderManage(); renderAddrSelect(); renderAll(); mMsg('Endereço excluído.',true);
+    });
+  });
+  function addEntry(){
+    var op=norm($('mOp').value).toUpperCase(), ad=norm($('mAd').value);
+    if(!ad){ mMsg('Informe o endereço.'); $('mAd').focus(); return; }
+    if(duplicateEntry(op,ad,null)){ mMsg('Já existe esse endereço para essa operadora.'); return; }
+    state.entries.push({id:uid(), operator:op, address:ad});
+    save(); $('mOp').value=''; $('mAd').value='';
+    renderManage(); renderAddrSelect(); mMsg('Endereço adicionado.',true);
+    var l=$('mList'); l.scrollTop=l.scrollHeight;
+  }
+  $('mAddBtn').addEventListener('click', addEntry);
+  ['mOp','mAd'].forEach(function(id){ $(id).addEventListener('keydown', function(ev){ if(ev.key==='Enter'){ ev.preventDefault(); addEntry(); } }); });
+
+  /* ---------- Inicialização ---------- */
+  renderMonthSelect();
+  renderAddrSelect();
+  renderYearSelect();
+  renderList();
+  save();
+})();
+</script>
 </body>
 </html>
